@@ -52,14 +52,14 @@
           return swal({
             title: 'Ganaste!',
             type: 'success'
-          })
+          }).catch(swal.noop)
         }
 
         swal({
           timer: 1000,
           title: `Nivel ${nivelActual+1}`,
           showConfirmButton: false
-        })
+        }).catch(swal.noop)
 
         for (let i = 0; i <= nivelActual; i++) {
           setTimeout(() => activate(teclas[i]),1000*(i+1)+500)
@@ -81,18 +81,16 @@
           }else {
             window.removeEventListener('keydown', onkeydown)
             activate(ev.keyCode, {fail: true})
-            setTimeout(function ()  {
+            setTimeout(function (){
               swal({
                 title: 'Perdiste',
                 text: '¿Quieres jugar de nuevo?',
                 showCancelButton : true,
                 confirmButtonText: 'Si',
                 cancelButtonText: 'No'
-              }, function (ok) {
-                if(ok){
-                  teclas = generarTeclas(niveles)
-                  siguienteNivel(0)
-                }
+              }).then(function (){                
+                teclas = generarTeclas(niveles)
+                siguienteNivel(0)
               })
             },1000)
 
