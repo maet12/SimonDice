@@ -57,7 +57,7 @@
 
         swal({
           timer: 1000,
-          title: `Nivel ${nivelActual+1}`,
+          title: `Nivel ${nivelActual+1} / ${niveles}`,
           showConfirmButton: false
         }).catch(swal.noop)
 
@@ -88,7 +88,7 @@
                 showCancelButton : true,
                 confirmButtonText: 'Si',
                 cancelButtonText: 'No'
-              }).then(function (){                
+              }).then(function (){
                 teclas = generarTeclas(niveles)
                 siguienteNivel(0)
               })
