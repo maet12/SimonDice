@@ -8,7 +8,16 @@
   </head>
   <body>
     <section id="contenido">
-      <div class="keyboard">
+      <div id="pantalla-inicial">
+        <h1>SimonKeyboard.JS</h1>
+        <h2>Seleccione un nivel para comenzar.</h2>
+        <ul>
+          <li><span id="facil">Facil</span></li>
+          <li><span id="medio">Medio</span></li>
+          <li><span id="dificil">Dificil</span></li>
+        </ul>
+      </div>
+      <div class="keyboard desactiva-pantalla" id="keyboard">
         <div class="row">
               <div class="key" data-key="81">q</div>
               <div class="key" data-key="87">w</div>
@@ -53,6 +62,26 @@
     <script>
       const niveles = 15
       let teclas = generarTeclas(niveles)
+      const $facil = document.getElementById('facil')
+      const $medio = document.getElementById('medio')
+      const $dificil = document.getElementById('dificil')
+
+      $facil.addEventListener("click", iniciarJuego)
+      $medio.addEventListener("click", iniciarJuego)
+      $dificil.addEventListener("click", iniciarJuego)
+
+      function iniciarJuego() {
+        cambiarPantallas()
+        siguienteNivel(0)
+      }
+
+
+      function cambiarPantallas() {
+        const $keyboard = document.getElementById('keyboard')
+        const $pantallaInicial = document.getElementById('pantalla-inicial')
+        $keyboard.classList.toggle('desactiva-pantalla')
+        $pantallaInicial.classList.toggle('desactiva-pantalla')
+      }
 
       function siguienteNivel(nivelActual){
         if(nivelActual == niveles){
@@ -75,6 +104,7 @@
         let i = 0
         let teclaActual = teclas[i]
         window.addEventListener('keydown', onkeydown)
+        //window.addEventListener('click', onkeydown)
 
         function onkeydown(ev) {
           if(ev.keyCode == teclaActual){
@@ -82,12 +112,13 @@
             i++
             if (i>nivelActual) {
               window.removeEventListener('keydown', onkeydown)
+              //window.removeEventListener('click', onkeydown)
               setTimeout(() => siguienteNivel(i),1500)
             }
             teclaActual = teclas[i]
           }else {
             window.removeEventListener('keydown', onkeydown)
-            console.log(ev);
+            //window.removeEventListener('click', onkeydown)
             activate(ev.keyCode, {fail: true})
             setTimeout(function (){
               swal({
@@ -99,14 +130,17 @@
               }).then(function (){
                 teclas = generarTeclas(niveles)
                 siguienteNivel(0)
+              }, function () {
+                const $keyboard = document.getElementById('keyboard')
+                const $pantallaInicial = document.getElementById('pantalla-inicial')
+                $keyboard.classList.toggle('desactiva-pantalla')
+                $pantallaInicial.classList.toggle('desactiva-pantalla')
               })
             },1000)
 
           }
         }
       }
-
-      siguienteNivel(0)
 
       function generarTeclaAleatoria() {
         const min = 65
