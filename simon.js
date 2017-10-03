@@ -5,13 +5,23 @@
   const $medio = document.getElementById('medio')
   const $dificil = document.getElementById('dificil')
 
-  $facil.addEventListener("click", iniciarJuego)
-  $medio.addEventListener("click", iniciarJuego)
-  $dificil.addEventListener("click", iniciarJuego)
+  $facil.addEventListener("click", facil)
+  $medio.addEventListener("click", medio)
+  $dificil.addEventListener("click", dificil)
 
-  function iniciarJuego() {
+  function facil() {
     cambiarPantallas()
-    siguienteNivel(0)
+    siguienteNivel(0,1750)
+  }
+
+  function medio() {
+    cambiarPantallas()
+    siguienteNivel(0,1250)
+  }
+
+  function dificil() {
+    cambiarPantallas()
+    siguienteNivel(0,750)
   }
 
 
@@ -22,7 +32,7 @@
     $pantallaInicial.classList.toggle('desactiva-pantalla')
   }
 
-  function siguienteNivel(nivelActual){
+  function siguienteNivel(nivelActual, velocidad){
     if(nivelActual == niveles){
       return swal({
         title: 'Ganaste!',
@@ -37,7 +47,7 @@
     }).catch(swal.noop)
 
     for (let i = 0; i <= nivelActual; i++) {
-      setTimeout(() => activate(teclas[i]),1000*(i+1)+500)
+      setTimeout(() => activate(teclas[i]),velocidad*(i+1)+500)
     }
 
     let i = 0
@@ -52,7 +62,7 @@
         if (i>nivelActual) {
           window.removeEventListener('keydown', onkeydown)
           //window.removeEventListener('click', onkeydown)
-          setTimeout(() => siguienteNivel(i),1500)
+          setTimeout(() => siguienteNivel(i,velocidad),1500)
         }
         teclaActual = teclas[i]
       }else {
